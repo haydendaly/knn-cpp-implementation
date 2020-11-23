@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std; 
+//Reference: https://www.bestprog.net/en/2019/08/23/c-an-example-of-creating-a-template-class-matrix-dynamic-memory-allocation/
 
 template <typename mtrx> 
 class Matrix {
@@ -129,17 +130,11 @@ float Random_Float(float a, float b) {
 int main() {
 
   Matrix<float> M(50, 2);
-
-  // Fill the matrix with values according to the formula
-
   for (int i = 0; i < 50; i++)
   	//M.SetMij(i, 0, i);
   	M.SetMij(i, 0, Random_Float(-100.0, 100.0)); 
   for (int i = 0; i < 50; i ++)
   	M.SetMij(i, 1, Random_Float(-100.0, 100.0)); 
-  /*
-    for (int j = 0; j < 3; j++)
-      M.SetMij(i, j, rand() % 100);
-  */
+
   M.Print("Sample Test Matrix");
 }
