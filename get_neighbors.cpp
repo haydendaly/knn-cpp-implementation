@@ -1,13 +1,22 @@
 #include <iostream>
 #include <set>
+#include <math.h> // pow(base,exponent)
 #include <vector>
 
 using namespace std;
 
-float euclidean_distance(vector<int> base_tensor, vector<int> base_tensor_2) {
-    // James - For N dimensional input tensor
-    float random_num = rand() % 100;
-    return random_num;
+float euclidean_distance(vector<int> base_tensor, vector<int> base_tensor_2) { // Euclidean distance for N dimensional input tensor
+    if (base_tensor.size() != base_tensor_2.size()) {
+    	return rand() % 100; // Tensors must be same length. Otherwise return random num.
+    }
+
+	float distance = 0.0;
+	for (int i=0; i<base_tensor.size(); i++) { // (p1-q1)^2 + (p2-q2)^2 + . . . + (pi-qi)^2 + (pn-qn)^2
+		distance += pow(base_tensor[i]-base_tensor_2[i], 2);
+	}
+	distance = sqrt(distance); // sqrt( (pn-qn)^2 )
+
+	return distance;
 }
 
 struct VectorDistance {
