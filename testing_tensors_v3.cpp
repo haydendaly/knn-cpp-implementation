@@ -127,14 +127,14 @@ float Random_Float(float a, float b) {
 	return (r*diff) + a; 
 }
 
-Matrix<float> create_matrix(int total_tensors, float min_random_value, float max_random_value) {
+Matrix<float> create_matrix(int total_tensors, float min_random_value, float max_random_value) { //for 2D matrix
 	Matrix<float> M(total_tensors, 3);
 
 	for(int i = 0; i < total_tensors; i++)
 		M.SetMij(i, 0, i); 
 
+
 	for (int i = 0; i < total_tensors; i++)
-		//M.SetMij(i, 0, i);
 		M.SetMij(i, 1, Random_Float(min_random_value, max_random_value)); 
 	for (int i = 0; i < total_tensors; i ++)
 		M.SetMij(i, 2, Random_Float(min_random_value, max_random_value)); 
@@ -142,13 +142,29 @@ Matrix<float> create_matrix(int total_tensors, float min_random_value, float max
   	M.Print("Sample Test Matrix");
 }
 
+Matrix<float> create_matrix(int total_tensors, int dimensions, float min_random_value, float max_random_value) {  //for multidimensional matrix
+	Matrix<float> M(total_tensors, dimensions);
+
+	for(int i = 0; i < total_tensors; i++)
+		M.SetMij(i, 0, i); 
+
+	for (int a = 1; a <= dimensions; a++) {		
+		for (int i = 0; i < total_tensors; i++)
+			M.SetMij(i, a, Random_Float(min_random_value, max_random_value)); 
+		for (int i = 0; i < total_tensors; i ++)
+			M.SetMij(i, a, Random_Float(min_random_value, max_random_value)); 
+	}
+  	M.Print("Sample Test Matrix");
+}
+
 
 
 int main() {
 
-	int total_tensors= 100; 
+	int total_tensors= 1000; 
+	int dimensions = 20; 
 	float max_random_value = 100.0;
 	float min_random_value = -100.0;
 
-	create_matrix(total_tensors, min_random_value,max_random_value); 
+	create_matrix(total_tensors, dimensions, min_random_value,max_random_value); 
 }
