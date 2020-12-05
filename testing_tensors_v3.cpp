@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+//#include <ofstream>
 using namespace std; 
 //Reference: https://www.bestprog.net/en/2019/08/23/c-an-example-of-creating-a-template-class-matrix-dynamic-memory-allocation/
 
@@ -127,23 +129,12 @@ float Random_Float(float a, float b) {
 	return (r*diff) + a; 
 }
 
-Matrix<float> create_matrix(int total_tensors, float min_random_value, float max_random_value) { //for 2D matrix
-	Matrix<float> M(total_tensors, 3);
 
-	for(int i = 0; i < total_tensors; i++)
-		M.SetMij(i, 0, i); 
-
-
-	for (int i = 0; i < total_tensors; i++)
-		M.SetMij(i, 1, Random_Float(min_random_value, max_random_value)); 
-	for (int i = 0; i < total_tensors; i ++)
-		M.SetMij(i, 2, Random_Float(min_random_value, max_random_value)); 
-
-  	M.Print("Sample Test Matrix");
-}
 
 Matrix<float> create_matrix(int total_tensors, int dimensions, float min_random_value, float max_random_value) {  //for multidimensional matrix
+	dimensions++; 
 	Matrix<float> M(total_tensors, dimensions);
+
 
 	for(int i = 0; i < total_tensors; i++)
 		M.SetMij(i, 0, i); 
@@ -155,16 +146,46 @@ Matrix<float> create_matrix(int total_tensors, int dimensions, float min_random_
 			M.SetMij(i, a, Random_Float(min_random_value, max_random_value)); 
 	}
   	M.Print("Sample Test Matrix");
+
+
+
+  	ofstream out("matrix.csv");
+  	
+  	// Add/remove below to include/remove header lables for Tensors 
+  	//
+  	out << "Number" << ','; 
+  	for (int x = 1; x < dimensions; x++)
+  		out << "T" << x << ',';
+  	out << '\n'; 
+	// 
+
+	for (int i = 0; i < total_tensors; i++) {
+  		for(int j = 0; j < dimensions; j++) {
+  			out << M.GetMij(i, j) << ',';
+  		}
+  		out << '\n'; 
+  	}
+
+  	std::cout << "matrix.csv file saved successfully\n"; 
+
 }
 
 
 
 int main() {
+	
+	std::freopen("./matrix.dat", "r", stdin);
+	int total_tensors; 
+	int dimensions; 
+	float max_random_value;
+	float min_random_value;
 
-	int total_tensors= 1000; 
-	int dimensions = 20; 
-	float max_random_value = 100.0;
-	float min_random_value = -100.0;
+	std::cin >> total_tensors; 
+	std::cin >> dimensions;
+	std::cin >> max_random_value;
+	std::cin >> min_random_value; 
 
 	create_matrix(total_tensors, dimensions, min_random_value,max_random_value); 
+
+	return 0; 
 }
