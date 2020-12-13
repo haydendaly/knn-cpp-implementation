@@ -5,25 +5,23 @@
 
 using namespace std;
 
-float euclidean_distance(vector<int> base_tensor, vector<int> comparing_tensor)
-{ // Euclidean distance for N dimensional input tensor
-    if (base_tensor.size() != comparing_tensor.size())
-    {
-        return rand() % 100; // Tensors must be same length. Otherwise return random num.
-    }
-
-    float distance = 0.0;
+float cosine_similarity(vector<int> base_tensor, vector<int> comparing_tensor)
+{
+    // Init values for dot product and magnitudes
+    float dot = 0.0, base_magnitude = 0.0, comparing_magnitude = 0.0;
     for (int i = 0; i < base_tensor.size(); i++)
-    { // (p1-q1)^2 + (p2-q2)^2 + . . . + (pi-qi)^2 + (pn-qn)^2
-        distance += pow(base_tensor[i] - comparing_tensor[i], 2);
+    {
+        // Calculate dot product of the two vectors
+        dot += base_tensor[i] * comparing_tensor[i];
+        // Equivalent to sigmoid of all elements squared
+        base_magnitude += pow(base_tensor[i], 2);
+        comparing_magnitude += pow(comparing_tensor[i], 2);
     }
-    distance = sqrt(distance); // sqrt( (pn-qn)^2 )
-
-    return distance;
+    return dot / (sqrt(base_magnitude) * sqrt(comparing_magnitude));
 }
 
 struct VectorDistance
-{ 
+{
     // VectorDistance data type that stores tensor and distance from a base tensor
     float distance;
     vector<int> tensor;
@@ -31,8 +29,8 @@ struct VectorDistance
     // Constructor
     VectorDistance(vector<int> base_tensor, vector<int> tensor_)
     {
-        // Call euclidean distance function to calculate distance property
-        distance = euclidean_distance(base_tensor, tensor_);
+        // Call distance function to calculate distance property
+        distance = cosine_similarity(base_tensor, tensor_);
         tensor = tensor_;
     }
 
