@@ -1,8 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include <sys/time.h>
+#include <ctime>
+#include <bits/stdc++.h> 
 using namespace std; 
+//Reference: https://www.geeksforgeeks.org/measure-execution-time-with-high-precision-in-c-c/
 //Reference: https://www.bestprog.net/en/2019/08/23/c-an-example-of-creating-a-template-class-matrix-dynamic-memory-allocation/
-
 template <typename mtrx> 
 class Matrix {
 	private:
@@ -130,7 +133,12 @@ Matrix<float> create_matrix(int total_tensors, int dimensions, float min_random_
 	dimensions++; //accomidating for index in 0 column
 	Matrix<float> M(total_tensors, dimensions); 
 
-	//set index
+	//Benchmarking
+	struct timeval start, end; 
+    gettimeofday(&start, NULL); 
+    ios_base::sync_with_stdio(false); 
+
+ 
 	for(int i = 0; i < total_tensors; i++)
 		M.SetMij(i, 0, i); 
 
@@ -139,6 +147,19 @@ Matrix<float> create_matrix(int total_tensors, int dimensions, float min_random_
 		for (int i = 0; i < total_tensors; i++)
 			M.SetMij(i, a, Random_Float(min_random_value, max_random_value)); 
 	}
+	//Benchmarking uncomment below to identify runtimes
+	/*
+	gettimeofday(&end, NULL); 
+    double time_taken; 
+    time_taken = (end.tv_sec - start.tv_sec) * 1e6; 
+    time_taken = (time_taken + (end.tv_usec -  
+                              start.tv_usec)) * 1e-6; 
+    cout << "Given " << dimensions - 1 << " x " << total_tensors << " Matrix \n"; 
+    cout << "Time taken by program is : " << fixed 
+         << time_taken << setprecision(6); 
+    cout << " sec" << endl; 
+	std::cout <<endl;  
+	*/
 
   	M.Print("Sample Test Matrix");
 
@@ -162,6 +183,7 @@ Matrix<float> create_matrix(int total_tensors, int dimensions, float min_random_
   		out << '\n'; 
   	}
   	std::cout << "matrix.csv file saved successfully\n"; 
+  	std::cout << std::endl;
 }
 
 
